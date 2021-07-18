@@ -1,0 +1,2 @@
+[![Build Status](https://app.travis-ci.com/NikolayPol/job4j_grabber.svg?branch=master)](https://app.travis-ci.com/NikolayPol/job4j_grabber)
+[![codecov](https://codecov.io/gh/NikolayPol/job4j_design/branch/master/graph/badge.svg?token=RT7OBT3AF2)](https://codecov.io/gh/NikolayPol/job4j_design)
