@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -19,41 +18,47 @@ import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
     public static void main(String[] args) {
-        try {
-
+        try (Connection connection = AlertRabbit.connect()) {
             List<Long> store = new ArrayList<>();
+
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
             scheduler.start();
+
             JobDataMap data = new JobDataMap();
+            data.put("connection", connection);
             data.put("store", store);
-            data.put("conection", connect());
-            data.put("createdJob", createdJob());
+            data.put("createdJob", createdJob(connection));
+
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
                     .build();
+
             SimpleScheduleBuilder times = simpleSchedule()
                     .withIntervalInSeconds(Integer.parseInt(readProperties()
                             .getProperty("rabbit.interval")))
                     .repeatForever();
+
             Trigger trigger = newTrigger()
                     .startNow()
                     .withSchedule(times)
                     .build();
+
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
             scheduler.shutdown();
             System.out.println(store);
+
         } catch (Exception se) {
             se.printStackTrace();
         }
     }
 
-    public static boolean createdJob() {
+    public static boolean createdJob(Connection connection) {
         boolean res = true;
-        try {
-            Statement statement = connect().createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.execute("insert into rabbit(created_date) "
-                    + "values ('1234-56-78')");
+                    + "values (localtimestamp)");
         } catch (Exception e) {
             res = false;
             e.printStackTrace();
@@ -61,13 +66,13 @@ public class AlertRabbit {
         return res;
     }
 
-    public static Connection connect() throws ClassNotFoundException {
-        Class.forName(readProperties().getProperty("jdbc.driver"));
-        try (Connection cn = DriverManager.getConnection(
-                readProperties().getProperty("url"),
-                readProperties().getProperty("username"),
-                readProperties().getProperty("password")
-        )) {
+    public static Connection connect() {
+        try {
+            Class.forName(readProperties().getProperty("jdbc.driver"));
+            Connection cn = DriverManager.getConnection(
+                    readProperties().getProperty("url"),
+                    readProperties().getProperty("username"),
+                    readProperties().getProperty("password"));
             return cn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,10 +102,11 @@ public class AlertRabbit {
             List<Long> store = (List<Long>) context
                     .getJobDetail().getJobDataMap().get("store");
             store.add(System.currentTimeMillis());
-            Connection connect = (Connection) context
-                    .getJobDetail().getJobDataMap().get("connection");
             Job createdJob = (Job) context
                     .getJobDetail().getJobDataMap().get("createdJob");
+            Connection connection = (Connection) context
+                    .getJobDetail().getJobDataMap().get("connection");
+            createdJob(connection);
             System.out.println(createdJob);
         }
     }
