@@ -72,8 +72,8 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public List<Post> list(String link) {
-        return pageParser(link);
+    public List<Post> list(String link, int amount) {
+        return pageParser(link, amount);
     }
 
     @Override
@@ -82,15 +82,15 @@ public class SqlRuParse implements Parse {
         return new Post(link, text);
     }
 
-    public static void main(String[] args) {
-        String link = "https://www.sql.ru/forum/job-offers/";
-        String linkDetail =
-                "https://www.sql.ru/forum/1335214/poisk-vedushhego-razrabotchika-bd-gorod-moskva";
-        SqlRuParse sp = new SqlRuParse(new SqlRuDateTimeParser());
-        List<Post> posts = sp.pageParser(link, 2);
-        for (Post post : posts) {
-            System.out.println(post);
-        }
-        //System.out.println(sp.detail(linkDetail));
-    }
+//    public static void main(String[] args) {
+//        String link = "https://www.sql.ru/forum/job-offers/";
+//        String linkDetail =
+//                "https://www.sql.ru/forum/1335214/poisk-vedushhego-razrabotchika-bd-gorod-moskva";
+//        SqlRuParse sp = new SqlRuParse(new SqlRuDateTimeParser());
+//        List<Post> posts = sp.pageParser(link, 2);
+//        for (Post post : posts) {
+//            System.out.println(post);
+//        }
+//        //System.out.println(sp.detail(linkDetail));
+//    }
 }
