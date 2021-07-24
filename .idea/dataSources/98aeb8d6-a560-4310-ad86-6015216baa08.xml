@@ -784,7 +784,7 @@ false YEKT
 false Z
 false Zulu
 </TimeZones>
-      <StartupTime>1626597186</StartupTime>
+      <StartupTime>1627137049</StartupTime>
     </root>
     <database id="2" parent="1" name="animals">
       <ObjectId>16398</ObjectId>
@@ -793,9 +793,10 @@ false Zulu
     <database id="3" parent="1" name="grabber">
       <ObjectId>18395</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1860</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2051</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|18396|18398|1
+sequence|table|18493|18495|1
 </Relations>
     </database>
     <database id="4" parent="1" name="humans">
@@ -927,7 +928,7 @@ UC/10
 </Acl>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1861</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2052</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="33" parent="3" name="plpgsql">
@@ -1027,18 +1028,78 @@ UC/10
       <HandlerId>335</HandlerId>
       <Type>index</Type>
     </access-method>
-    <sequence id="45" parent="32" name="rabbit_id_seq">
+    <sequence id="45" parent="32" name="post_id_seq">
+      <ObjectId>18493</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>2050</StateNumber>
+      <DataType>integer|0s</DataType>
+    </sequence>
+    <sequence id="46" parent="32" name="rabbit_id_seq">
       <ObjectId>18396</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>1859</StateNumber>
       <DataType>integer|0s</DataType>
     </sequence>
-    <table id="46" parent="32" name="rabbit">
+    <table id="47" parent="32" name="post">
+      <ObjectId>18495</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>2050</StateNumber>
+    </table>
+    <table id="48" parent="32" name="rabbit">
       <ObjectId>18398</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>1859</StateNumber>
     </table>
-    <column id="47" parent="46" name="id">
+    <column id="49" parent="47" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2050</StateNumber>
+      <DefaultExpression>nextval(&apos;post_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="50" parent="47" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>2050</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="51" parent="47" name="link">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+      <StateNumber>2050</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="52" parent="47" name="text">
+      <Position>4</Position>
+      <DataType>text|0s</DataType>
+      <StateNumber>2050</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="53" parent="47" name="created">
+      <Position>5</Position>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>2050</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <index id="54" parent="47" name="post_pkey">
+      <ObjectId>18502</ObjectId>
+      <StateNumber>2050</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>0</CollationIds>
+      <ClassIds>1978</ClassIds>
+    </index>
+    <key id="55" parent="47" name="post_pkey">
+      <ObjectId>18503</ObjectId>
+      <StateNumber>2050</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>post_pkey</UnderlyingIndexName>
+    </key>
+    <column id="56" parent="48" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1046,13 +1107,13 @@ UC/10
       <DefaultExpression>nextval(&apos;rabbit_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="48" parent="46" name="created_date">
+    <column id="57" parent="48" name="created_date">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <StateNumber>1859</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <index id="49" parent="46" name="rabbit_pkey">
+    <index id="58" parent="48" name="rabbit_pkey">
       <ObjectId>18402</ObjectId>
       <StateNumber>1859</StateNumber>
       <ColNames>id</ColNames>
@@ -1062,7 +1123,7 @@ UC/10
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="50" parent="46" name="rabbit_pkey">
+    <key id="59" parent="48" name="rabbit_pkey">
       <ObjectId>18403</ObjectId>
       <StateNumber>1859</StateNumber>
       <ColNames>id</ColNames>
