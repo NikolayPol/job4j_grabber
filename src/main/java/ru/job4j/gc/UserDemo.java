@@ -24,11 +24,11 @@ public class UserDemo {
 
     public static void main(String[] args) {
         info();
-        //User user0 = new User();
+        User user0 = new User();
         //User user1 = new User(15, "user1");
-        for (int i = 0; i < 1000; i++) {
-            new User(i, "N" + i);
-        }
+//        for (int i = 0; i < 10000; i++) {
+//            new User(i, "N" + i);
+//        }
         System.gc();
         info();
 
@@ -59,6 +59,6 @@ public class UserDemo {
         //System.out.println(GraphLayout.parseInstance(user1).toFootprint());
 
         //Пустой объект без полей
-        //System.out.println(ClassLayout.parseClass(User.class).toPrintable(user0));
+        System.out.println(ClassLayout.parseClass(User.class).toPrintable(user0));
     }
 }
