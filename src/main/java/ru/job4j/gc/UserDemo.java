@@ -24,12 +24,16 @@ public class UserDemo {
 
     public static void main(String[] args) {
         info();
-        User user0 = new User();
-        User user1 = new User(15, "user1");
+        //User user0 = new User();
+        //User user1 = new User(15, "user1");
+        for (int i = 0; i < 1000; i++) {
+            new User(i, "N" + i);
+        }
+        System.gc();
         info();
 
         // информацию о нашей текущей виртуальной машине
-        System.out.println(VM.current().details());
+        //System.out.println(VM.current().details());
         /*
         # WARNING: Unable to attach Serviceability Agent. sun.jvm.hotspot.memory
         .Universe.getNarrowOopBase()
@@ -49,12 +53,12 @@ public class UserDemo {
          */
 
         // Размер объекта user1
-        System.out.println(ClassLayout.parseClass(User.class).toPrintable(user1));
+        //System.out.println(ClassLayout.parseClass(User.class).toPrintable(user1));
 
         //класс GraphLayout:
         //System.out.println(GraphLayout.parseInstance(user1).toFootprint());
 
         //Пустой объект без полей
-        System.out.println(ClassLayout.parseClass(User.class).toPrintable(user0));
+        //System.out.println(ClassLayout.parseClass(User.class).toPrintable(user0));
     }
 }
