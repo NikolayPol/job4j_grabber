@@ -28,7 +28,7 @@ public class AlertRabbit {
             JobDataMap data = new JobDataMap();
             data.put("connection", connection);
             data.put("store", store);
-            data.put("createdJob", createdJob(connection));
+            //data.put("createdJob", createdJob(connection));
 
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
@@ -102,12 +102,9 @@ public class AlertRabbit {
             List<Long> store = (List<Long>) context
                     .getJobDetail().getJobDataMap().get("store");
             store.add(System.currentTimeMillis());
-            Job createdJob = (Job) context
-                    .getJobDetail().getJobDataMap().get("createdJob");
             Connection connection = (Connection) context
                     .getJobDetail().getJobDataMap().get("connection");
             createdJob(connection);
-            System.out.println(createdJob);
         }
     }
 }
