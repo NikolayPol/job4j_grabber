@@ -8,7 +8,9 @@ import ru.job4j.Post;
 import ru.job4j.grabber.Parse;
 import ru.job4j.grabber.utils.DateTimeParser;
 import ru.job4j.grabber.utils.SqlRuDateTimeParser;
+
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,20 +79,53 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(String link) {
-        String text = description(link);
-        return new Post(link, text);
+    public Post detail(String href) {
+        Post post = new Post();
+        String title = null;
+        String description = description(href);
+        LocalDateTime created = null;
+        String link = href;
+
+        try {
+            Document doc = Jsoup.connect(href).get();
+            Element table = doc.select(".msgTable")
+                    .select("tbody")
+                    .select("tr")
+                    .select(".messageHeader")
+                    .get(0);
+            title = table.text();
+            Element table2 = doc.select(".msgTable")
+                    .select("tbody")
+                    .select("tr")
+                    .select(".msgFooter")
+                    .get(0);
+            String[] arr = table2.text().split(" ");
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < 4; i++) {
+                builder.append(arr[i] + " ");
+            }
+            String str = builder.toString();
+            //System.out.println(str);
+            created = dateTimeParser.parse(str);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        post.setTitle(title);
+        post.setLink(href);
+        post.setDescription(description(href));
+        post.setCreated(created);
+        return post;
     }
 
-//    public static void main(String[] args) {
-//        String link = "https://www.sql.ru/forum/job-offers/";
-//        String linkDetail =
-//                "https://www.sql.ru/forum/1335214/poisk-vedushhego-razrabotchika-bd-gorod-moskva";
-//        SqlRuParse sp = new SqlRuParse(new SqlRuDateTimeParser());
-//        List<Post> posts = sp.pageParser(link, 2);
+    public static void main(String[] args) {
+        String link = "https://www.sql.ru/forum/job-offers/";
+        String linkDetail =
+                "https://www.sql.ru/forum/1337713/razrabotchik-net-core-middle-senior";
+        SqlRuParse sp = new SqlRuParse(new SqlRuDateTimeParser());
+        //List<Post> posts = sp.pageParser(link, 2);
 //        for (Post post : posts) {
 //            System.out.println(post);
 //        }
-//        //System.out.println(sp.detail(linkDetail));
-//    }
+        System.out.println(sp.detail(linkDetail));
+    }
 }
