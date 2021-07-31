@@ -1,8 +1,27 @@
 package ru.job4j.grabber.utils;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
+    private static final Map<String, Integer> MONTH = new HashMap<>();
+
+    static {
+        MONTH.put("янв", 1);
+        MONTH.put("фев", 2);
+        MONTH.put("мар", 3);
+        MONTH.put("апр", 4);
+        MONTH.put("май", 5);
+        MONTH.put("июн", 6);
+        MONTH.put("июл", 7);
+        MONTH.put("авг", 8);
+        MONTH.put("сен", 9);
+        MONTH.put("окт", 10);
+        MONTH.put("ноя", 11);
+        MONTH.put("дек", 12);
+    }
+
     @Override
     public LocalDateTime parse(String parse) {
         String time = parse.replace(",", "");
@@ -25,52 +44,11 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     arr[2]};
         }
         int year = Integer.parseInt("20" + arr[2]);
-        int month = monthConvert(arr[1]);
+        int month = MONTH.get(arr[1]);
         int day = Integer.parseInt(arr[0]);
         int hour = Integer.parseInt(arr[3]);
         int minute = Integer.parseInt(arr[4]);
         return LocalDateTime.of(year, month, day, hour, minute);
-    }
-
-    public int monthConvert(String month) {
-        int res = -1;
-        if (month.equals("янв") || month.equals("1")) {
-            res = 1;
-        }
-        if (month.equals("фев") || month.equals("2")) {
-            res = 2;
-        }
-        if (month.equals("мар") || month.equals("3")) {
-            res = 3;
-        }
-        if (month.equals("апр") || month.equals("4")) {
-            res = 4;
-        }
-        if (month.equals("май") || month.equals("5")) {
-            res = 5;
-        }
-        if (month.equals("июн") || month.equals("6")) {
-            res = 6;
-        }
-        if (month.equals("июл") || month.equals("7")) {
-            res = 7;
-        }
-        if (month.equals("авг") || month.equals("8")) {
-            res = 8;
-        }
-        if (month.equals("сен") || month.equals("9")) {
-            res = 9;
-        }
-        if (month.equals("окт") || month.equals("10")) {
-            res = 10;
-        }
-        if (month.equals("ноя") || month.equals("11")) {
-            res = 11;
-        }
-        if (month.equals("дек") || month.equals("12")) {
-            res = 12;
-        }
-        return res;
     }
 
 //    public static void main(String[] args) {
