@@ -46,9 +46,8 @@ where company_id != 5;
 
 --- название компании для каждого человека.
 select p.name, c.name
-from company c
-         inner join person p on c.id = p.company_id
-where p.company_id = c.id;
+from company c inner join person p on c.id = p.company_id
+where p.company_id = c.id AND company_id != 5;
 
 --2. Необходимо выбрать название компании
 -- с максимальным количеством человек + количество человек в этой компании.
