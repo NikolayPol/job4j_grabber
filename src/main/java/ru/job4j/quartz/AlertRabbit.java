@@ -18,7 +18,9 @@ import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
     public static void main(String[] args) {
-        try (Connection connection = AlertRabbit.connect()) {
+        var properties = readProperties("log4j.properties");
+
+        try (Connection connection = AlertRabbit.connect(properties)) {
             List<Long> store = new ArrayList<>();
 
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
@@ -28,14 +30,13 @@ public class AlertRabbit {
             JobDataMap data = new JobDataMap();
             data.put("connection", connection);
             data.put("store", store);
-            //data.put("createdJob", createdJob(connection));
 
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
                     .build();
 
             SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(Integer.parseInt(readProperties()
+                    .withIntervalInSeconds(Integer.parseInt(properties
                             .getProperty("rabbit.interval")))
                     .repeatForever();
 
@@ -66,13 +67,13 @@ public class AlertRabbit {
         return res;
     }
 
-    public static Connection connect() {
+    public static Connection connect(Properties properties) {
         try {
-            Class.forName(readProperties().getProperty("jdbc.driver"));
+            Class.forName(properties.getProperty("jdbc.driver"));
             Connection cn = DriverManager.getConnection(
-                    readProperties().getProperty("url"),
-                    readProperties().getProperty("username"),
-                    readProperties().getProperty("password"));
+                    properties.getProperty("url"),
+                    properties.getProperty("username"),
+                    properties.getProperty("password"));
             return cn;
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,10 +81,10 @@ public class AlertRabbit {
         return null;
     }
 
-    public static Properties readProperties() {
+    public static Properties readProperties(String path) {
         Properties config = new Properties();
         try (InputStream in = AlertRabbit.class.getClassLoader()
-                .getResourceAsStream("log4j.properties")) {
+                .getResourceAsStream(path)) {
             config.load(in);
         } catch (IOException e) {
             throw new IllegalStateException(e);
