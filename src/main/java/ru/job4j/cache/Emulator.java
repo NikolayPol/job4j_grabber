@@ -6,8 +6,17 @@ public class Emulator extends DirFileCache {
         super(cachingDir);
     }
 
+    public void setCachingDir(String cachingDir) {
+        super.setCachingDir(cachingDir);
+    }
+
     public static void main(String[] args) {
-        Emulator emulator = new Emulator("Names.txt, Address.txt");
-        System.out.println(emulator.get("Names.txt"));
+        Emulator emulator = new Emulator("src/main/java/ru/job4j/cache/");
+        // указать кэшируемую директорию
+        emulator.setCachingDir("src/main/java/ru/job4j/cache/");
+        // загрузить содержимое файла в кэш
+        emulator.load("Names.txt");
+        // получить содержимое файла из кэша
+        System.out.println(emulator.get("Address.txt"));
     }
 }
