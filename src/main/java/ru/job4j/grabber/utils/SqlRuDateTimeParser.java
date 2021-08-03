@@ -1,6 +1,7 @@
 package ru.job4j.grabber.utils;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,20 +29,10 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         time = time.replace(":", " ");
         String[] arr = time.split(" ");
         if (arr[0].equals("сегодня")) {
-            arr = new String[]{
-                    String.valueOf(LocalDateTime.now().getDayOfMonth()),
-                    String.valueOf(LocalDateTime.now().getMonth().getValue()),
-                    String.valueOf(LocalDateTime.now().getYear()).substring(2),
-                    arr[1],
-                    arr[2]};
+            arr = dayConverter(arr, LocalDateTime.now().getDayOfMonth());
 
         } else if (arr[0].equals("вчера")) {
-            arr = new String[]{
-                    String.valueOf(LocalDateTime.now().getDayOfMonth() - 1),
-                    String.valueOf(LocalDateTime.now().getMonth().getValue()),
-                    String.valueOf(LocalDateTime.now().getYear()).substring(2),
-                    arr[1],
-                    arr[2]};
+            arr = dayConverter(arr, LocalDateTime.now().getDayOfMonth() - 1);
         }
         int year = Integer.parseInt("20" + arr[2]);
         int month = MONTH.get(arr[1]);
@@ -49,6 +40,16 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         int hour = Integer.parseInt(arr[3]);
         int minute = Integer.parseInt(arr[4]);
         return LocalDateTime.of(year, month, day, hour, minute);
+    }
+
+    private String[] dayConverter(String[] arr, int dayOfMonth) {
+        arr = new String[]{
+                String.valueOf(dayOfMonth),
+                String.valueOf(LocalDateTime.now().getMonth().getValue()),
+                String.valueOf(LocalDateTime.now().getYear()).substring(2),
+                arr[1],
+                arr[2]};
+        return arr;
     }
 
 //    public static void main(String[] args) {
