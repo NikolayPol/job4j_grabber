@@ -1,4 +1,4 @@
-package ru.job4j.solid.srp;
+package ru.job4j.design.srp.ex1;
 
 import java.util.List;
 
