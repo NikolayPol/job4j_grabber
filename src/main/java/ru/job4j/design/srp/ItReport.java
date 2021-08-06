@@ -7,6 +7,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -20,26 +22,8 @@ public class ItReport extends ReportEngine {
     @Override
     public String generate(Predicate<Employee> filter) {
         //return xmlConverter(filter);
-        return htmlConverter(filter);
-    }
-
-    private String htmlConverter(Predicate<Employee> filter) {
-        StringBuilder text = new StringBuilder();
-        TemplateEngine templateEngine = new TemplateEngine();
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setTemplateMode("HTML");
-        templateEngine.setTemplateResolver(templateResolver);
-        for (Employee employee : getStore().findBy(filter)) {
-            Context context = new Context();
-            context.setVariable("Name", employee.getName());
-            context.setVariable("Hired", employee.getHired().getTime());
-            context.setVariable("Fired", employee.getFired().getTime());
-            context.setVariable("Salary", employee.getSalary());
-            StringWriter stringWriter = new StringWriter();
-            templateEngine.process("test.html", context, stringWriter);
-            text.append(stringWriter);
-        }
-        return text.toString();
+        return jsonConverter(filter);
+        //return htmlConverter(filter);
     }
 
     private String xmlConverter(Predicate<Employee> filter) {
@@ -59,6 +43,34 @@ public class ItReport extends ReportEngine {
             }
         } catch (JAXBException e) {
             e.printStackTrace();
+        }
+        return text.toString();
+    }
+
+    private String jsonConverter(Predicate<Employee> filter) {
+        StringBuilder text = new StringBuilder();
+        for (Employee employee : getStore().findBy(filter)) {
+            Gson gson = new GsonBuilder().create();
+            text.append(gson.toJson(employee) + System.lineSeparator());
+        }
+        return text.toString();
+    }
+
+    private String htmlConverter(Predicate<Employee> filter) {
+        StringBuilder text = new StringBuilder();
+        TemplateEngine templateEngine = new TemplateEngine();
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setTemplateMode("HTML");
+        templateEngine.setTemplateResolver(templateResolver);
+        for (Employee employee : getStore().findBy(filter)) {
+            Context context = new Context();
+            context.setVariable("Name", employee.getName());
+            context.setVariable("Hired", employee.getHired().getTime());
+            context.setVariable("Fired", employee.getFired().getTime());
+            context.setVariable("Salary", employee.getSalary());
+            StringWriter stringWriter = new StringWriter();
+            templateEngine.process("ItForm.html", context, stringWriter);
+            text.append(stringWriter);
         }
         return text.toString();
     }
