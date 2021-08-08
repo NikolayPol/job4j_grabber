@@ -22,6 +22,12 @@ public class Food {
         price = price * (1 - discount * 0.01);
     }
 
+    public void removeDiscount() {
+        //System.out.println(price);
+        price = Math.round(price / (1 - discount * 0.01));
+        //System.out.println(price);
+    }
+
     public String getName() {
         return name;
     }

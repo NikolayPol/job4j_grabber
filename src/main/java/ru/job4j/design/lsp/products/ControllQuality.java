@@ -35,7 +35,7 @@ public class ControllQuality {
                 food.setDiscount();
                 new ShopAction(shop, food);
                 //System.out.println("shop: " + shop.getAll());
-            }  else if (shelfLife >= 1.0) {
+            } else if (shelfLife >= 1.0) {
                 new TrashAction(trash, food);
                 //System.out.println("trash: " + trash.getAll());
             }
@@ -58,6 +58,27 @@ public class ControllQuality {
                 / (dateExpiry.getTime() - dateCreate.getTime()));
     }
 
+    public void resort() {
+        foods.clear();
+        foods.addAll(warehouse.getAll());
+        warehouse.getAll().clear();
+
+        for (Food food : shop.getAll()) {
+            float shelfLife = getShelfLife(food);
+            if (0.75 < shelfLife && shelfLife < 1.0) {
+                food.removeDiscount();
+            }
+            foods.add(food);
+        }
+        shop.getAll().clear();
+
+        foods.addAll(trash.getAll());
+        trash.getAll().clear();
+        //System.out.println(foods);
+
+        execute();
+    }
+
     public static void main(String[] args) {
         List<Food> list = new ArrayList<>();
         Collections.addAll(list,
@@ -71,8 +92,9 @@ public class ControllQuality {
                         LocalDate.of(2021, 6, 1),
                         LocalDate.of(2021, 8, 20), 120.0, 30)
         );
-
+        //System.out.println(list);
         ControllQuality controllQuality = new ControllQuality(list);
         controllQuality.execute();
+        controllQuality.resort();
     }
 }
