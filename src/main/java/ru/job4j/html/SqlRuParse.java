@@ -82,9 +82,7 @@ public class SqlRuParse implements Parse {
     public Post detail(String href) {
         Post post = new Post();
         String title = null;
-        String description = description(href);
         LocalDateTime created = null;
-        String link = href;
 
         try {
             Document doc = Jsoup.connect(href).get();
@@ -98,14 +96,17 @@ public class SqlRuParse implements Parse {
                     .select("tbody")
                     .select("tr")
                     .select(".msgFooter")
-                    .get(0);
+                    .select("td")
+                    .get(1);
+            System.out.println(table2.text());
             String[] arr = table2.text().split(" ");
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < 4; i++) {
-                builder.append(arr[i] + " ");
+                builder.append(arr[i]).append(" ");
             }
             String str = builder.toString();
-            //System.out.println(str);
+            System.out.println(str);
+
             created = dateTimeParser.parse(str);
         } catch (IOException ioException) {
             ioException.printStackTrace();
