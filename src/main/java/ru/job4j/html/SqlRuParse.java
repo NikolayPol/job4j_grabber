@@ -96,18 +96,9 @@ public class SqlRuParse implements Parse {
                     .select("tbody")
                     .select("tr")
                     .select(".msgFooter")
-                    .select("td")
-                    .get(1);
-            System.out.println(table2.text());
-            String[] arr = table2.text().split(" ");
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < 4; i++) {
-                builder.append(arr[i]).append(" ");
-            }
-            String str = builder.toString();
-            System.out.println(str);
-
-            created = dateTimeParser.parse(str);
+                    .get(0);
+            String dateString = table2.text().split(" \\[")[0];
+            created = dateTimeParser.parse(dateString);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
