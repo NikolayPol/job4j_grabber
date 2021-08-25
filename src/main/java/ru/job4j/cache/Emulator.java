@@ -1,5 +1,7 @@
 package ru.job4j.cache;
 
+import java.util.Scanner;
+
 public class Emulator extends DirFileCache {
 
     public Emulator(String cachingDir) {
@@ -11,12 +13,13 @@ public class Emulator extends DirFileCache {
     }
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Emulator emulator = new Emulator("src/main/java/ru/job4j/cache/");
         // указать кэшируемую директорию
         emulator.setCachingDir("src/main/java/ru/job4j/cache/");
-        // загрузить содержимое файла в кэш
-        emulator.load("Names.txt");
         // получить содержимое файла из кэша
-        System.out.println(emulator.get("Address.txt"));
+        System.out.print("Введите имя файла: ");
+        String input = scanner.nextLine();
+        System.out.println("Содержание файла: \n" + emulator.get(input));
     }
 }

@@ -1,9 +1,8 @@
 package ru.job4j.cache;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DirFileCache extends AbstractCache<String, String> {
 
@@ -19,15 +18,14 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     @Override
     protected String load(String key) {
-        String text = null;
+        String text;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(
-                    cachingDir + key));
-            text = br.lines().collect(Collectors.joining(System.lineSeparator()));
+            text = Files.readString(Path.of(cachingDir + key));
             super.put(key, text);
-        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return text;
+        return super.get(key);
     }
 }
