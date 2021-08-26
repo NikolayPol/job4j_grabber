@@ -9,14 +9,14 @@ public class ParkingLotTest {
 
     @Test
     public void setAndGetNumberOfPassengerCars() {
-        IParkingLot parkingLot = new ParkingLot(16, 8, 4);
+        Lot parkingLot = new ParkingLot(16, 8, 4);
         parkingLot.setNumberOfPassengerCars(2);
         assertThat(parkingLot.getFreePlacesForPassengerCar(), is(14));
     }
 
     @Test
     public void seAndGettNumberOfTracks() {
-        IParkingLot parkingLot = new ParkingLot(16, 8, 4);
+        Lot parkingLot = new ParkingLot(16, 8, 4);
         parkingLot.setNumberOfTracks(2);
         assertThat(parkingLot.getFreePlacesForTrack(), is(10));
     }

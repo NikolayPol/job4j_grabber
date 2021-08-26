@@ -13,7 +13,7 @@ public class ParkingLotMain {
         System.out.print("Введите, сколько мест для легковых машин занимает грузовая машина: ");
         int trackToPassengerCar = scanner.nextInt();
 
-        IParkingLot parkingLot =
+        Lot parkingLot =
                 new ParkingLot(placeForPassengerCar, placeForTrack, trackToPassengerCar);
 
         while (true) {
