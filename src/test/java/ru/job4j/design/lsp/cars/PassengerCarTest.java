@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class PassengerCarTest {
-
     @Test
     public void setAndGetNumberOfCars() {
         Place passengerCar = new PassengerCar(16);

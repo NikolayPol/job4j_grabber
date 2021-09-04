@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class TrackTest {
-
     @Test
     public void setAndGetNumberOfCars() {
         Place tracks = new Track(8);

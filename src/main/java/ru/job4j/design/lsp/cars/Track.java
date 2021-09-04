@@ -1,7 +1,6 @@
 package ru.job4j.design.lsp.cars;
 
 public class Track implements Place {
-
     private final int numberOfSeats;
     private int numberOfCars;
 

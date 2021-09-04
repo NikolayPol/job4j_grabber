@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class ParkingLotTest {
-
     @Test
     public void setAndGetNumberOfPassengerCars() {
         Lot parkingLot = new ParkingLot(16, 8, 4);
