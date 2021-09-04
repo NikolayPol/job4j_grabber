@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp.cars;
 
 public class ParkingLot implements Lot {
+
     private final Place passengerCarLot;
     private final Place trackLot;
     private final int trackToPassengerCar; //сколько мест для легковых занимает грузовая машина

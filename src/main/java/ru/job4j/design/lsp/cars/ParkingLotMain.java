@@ -3,6 +3,7 @@ package ru.job4j.design.lsp.cars;
 import java.util.Scanner;
 
 public class ParkingLotMain {
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
