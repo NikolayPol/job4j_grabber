@@ -14,9 +14,8 @@ public class Emulator extends DirFileCache {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        // Создаем объект Emulator и указываем кэшируемую директорию
         Emulator emulator = new Emulator("src/main/java/ru/job4j/cache/");
-        // указать кэшируемую директорию
-        emulator.setCachingDir("src/main/java/ru/job4j/cache/");
         // получить содержимое файла из кэша
         System.out.print("Введите имя файла: ");
         String input = scanner.nextLine();
