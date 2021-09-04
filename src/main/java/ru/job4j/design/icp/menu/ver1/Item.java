@@ -1,4 +1,4 @@
-package ru.job4j.design.icp.menu;
+package ru.job4j.design.icp.menu.ver1;
 
 import java.util.List;
 

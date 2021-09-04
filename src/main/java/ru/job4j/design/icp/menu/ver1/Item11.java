@@ -1,13 +1,13 @@
-package ru.job4j.design.icp.menu;
+package ru.job4j.design.icp.menu.ver1;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item12 implements Item {
+public class Item11 implements Item {
     private List<Item> list = new ArrayList<>();
     private String name;
 
-    public Item12(String name) {
+    public Item11(String name) {
         this.name = name;
     }
 
