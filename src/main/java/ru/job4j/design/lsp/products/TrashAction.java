@@ -1,9 +1,9 @@
 package ru.job4j.design.lsp.products;
 
 public class TrashAction implements Strategy {
-    private final Trash trash;
+    private final Store trash;
 
-    public TrashAction(Trash trash, Food food) {
+    public TrashAction(Store trash, Food food) {
         this.trash = trash;
         add(food);
     }

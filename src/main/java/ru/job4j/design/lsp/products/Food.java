@@ -44,8 +44,8 @@ public class Food {
     public String toString() {
         return "Food{"
                 + "name='" + name + '\''
-                + ", expiryDate=" + expiryDate
                 + ", createDate=" + createDate
+                + ", expiryDate=" + expiryDate
                 + ", price=" + price
                 + ", discount=" + discount
                 + '}';

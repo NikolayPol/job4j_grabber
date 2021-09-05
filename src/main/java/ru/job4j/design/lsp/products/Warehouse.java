@@ -11,6 +11,11 @@ public class Warehouse implements Store {
     }
 
     @Override
+    public boolean accept(Food food) {
+        return getShelfLife(food) < 0.25;
+    }
+
+    @Override
     public void add(Food food) {
         foods.add(food);
     }

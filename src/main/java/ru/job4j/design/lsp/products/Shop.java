@@ -10,6 +10,17 @@ public class Shop implements Store {
     }
 
     @Override
+    public boolean accept(Food food) {
+        if (0.25 <= getShelfLife(food) && getShelfLife(food) <= 0.75) {
+            return true;
+        } else if (0.75 < getShelfLife(food) && getShelfLife(food) < 1.0) {
+            food.setDiscount();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void add(Food food) {
         foods.add(food);
     }

@@ -1,9 +1,9 @@
 package ru.job4j.design.lsp.products;
 
 public class WarehouseAction implements Strategy {
-    private final Warehouse warehouse;
+    private final Store warehouse;
 
-    public WarehouseAction(Warehouse warehouse, Food food) {
+    public WarehouseAction(Store warehouse, Food food) {
         this.warehouse = warehouse;
         add(food);
     }

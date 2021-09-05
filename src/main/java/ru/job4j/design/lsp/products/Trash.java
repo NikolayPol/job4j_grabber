@@ -7,6 +7,11 @@ public class Trash implements Store {
     private List<Food> foods = new ArrayList<>();
 
     @Override
+    public boolean accept(Food food) {
+        return getShelfLife(food) > 1.0;
+    }
+
+    @Override
     public void add(Food food) {
         foods.add(food);
     }

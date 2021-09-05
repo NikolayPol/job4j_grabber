@@ -1,9 +1,9 @@
 package ru.job4j.design.lsp.products;
 
 public class ShopAction implements Strategy {
-    private final Shop shop;
+    private final Store shop;
 
-    public ShopAction(Shop shop, Food food) {
+    public ShopAction(Store shop, Food food) {
         this.shop = shop;
         add(food);
     }
