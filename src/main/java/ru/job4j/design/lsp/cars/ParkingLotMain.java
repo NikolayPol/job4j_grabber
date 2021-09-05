@@ -2,6 +2,13 @@ package ru.job4j.design.lsp.cars;
 
 import java.util.Scanner;
 
+/**
+ * Класс ParkingLotMain - это Главный класс приложения.
+ * Класс создает объект-парковку и взаимодействует с Пользователем.
+ *
+ * @author Nikolay Polegaev
+ * @version 2.0
+ */
 public class ParkingLotMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
