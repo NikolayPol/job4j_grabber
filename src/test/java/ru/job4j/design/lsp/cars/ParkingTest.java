@@ -34,4 +34,5 @@ public class ParkingTest {
         //проверяем, что одна машина не поместилась
         assertEquals(parking.getCars, 2);
     }
+
 }
