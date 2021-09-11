@@ -5,17 +5,16 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Интерфейс Store устанавливает требования для классов-хранилищ продуктов.
- * @author Nikolay Polegaev
- * @version 2.0
- */
 public interface Store {
     boolean accept(Food food);
 
     void add(Food food);
 
-    List<Food> getAll();
+    String getName();
+
+    List<Food> getFoods();
+
+    List<Food> getAllAndClear();
 
     /**
      * Метод getShelfLife() вычисляет соотношение пройденного срока

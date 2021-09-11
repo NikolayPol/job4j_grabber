@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shop implements Store {
+    private String name = "Shop";
     private final List<Food> foods = new ArrayList<>();
 
-    public Shop() {
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public List<Food> getFoods() {
+        return foods;
     }
 
     @Override
@@ -26,7 +33,15 @@ public class Shop implements Store {
     }
 
     @Override
-    public List<Food> getAll() {
+    public List<Food> getAllAndClear() {
+        List<Food> buffer = foods;
+        foods.clear();
+        for (Food food : buffer) {
+            float shelfLife = getShelfLife(food);
+            if (0.75 < shelfLife && shelfLife < 1.0) {
+                food.removeDiscount();
+            }
+        }
         return foods;
     }
 }

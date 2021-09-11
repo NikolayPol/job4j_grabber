@@ -2,59 +2,51 @@ package ru.job4j.design.lsp.products;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Класс ControllQuality перераспределяет продукты в места хранения в зависимости
  * от оставшегося срока годности продукта.
+ *
  * @author Nikolay Polegaev
- * @version 2.0
+ * @version 3.0 11-09-2021
  */
 public class ControllQuality {
     /**
      * Поле foods хранит список продуктов(объекты класса Food);
-     * Поля warehouse, shop, trash хранят объеты Хранилищ.
+     * Поле storages хранит список хранилищ;
      */
-    private final List<Food> foods;
-    private final Store warehouse;
-    private final Store shop;
-    private final Store trash;
+    private List<Food> foods;
+    private final List<Store> storages;
 
-    public ControllQuality(List<Food> list, Store warehouse, Store shop, Store trash) {
-        this.foods = list;
-        this.warehouse = warehouse;
-        this.shop = shop;
-        this.trash = trash;
+    public ControllQuality(List<Store> storages) {
+        this.storages = storages;
     }
 
     /**
-     * Метод execute() - без параметров и ничего не возвращает.
+     * Метод execute() - принимает список продуктов и перераспределяет их по хранилищам.
      * Внутри метода происходит:
-     *  -вызов private метода foodCheck() для перераспределения продуктов.
+     * -вызов private метода foodCheck() для перераспределения продуктов.
      */
-    public void execute() {
+    public void execute(List<Food> products) {
+        this.foods = products;
         foodCheck();
     }
 
     /**
      * Меотд foodCheck() - без параметров и ничего не возвращает.
      * Внутри метода происходит:
-     *  -для каждого продукта из подя foods проверка его оставшегося срока годости
+     * -для каждого продукта из подя foods проверка его оставшегося срока годости
+     * с добавлением в соответствующее хранилище
      */
     private void foodCheck() {
         for (Food food : foods) {
-            if (warehouse.accept(food)) {
-                new WarehouseAction(warehouse, food);
-                System.out.println("warehouse: " + warehouse.getAll());
-            } else if (shop.accept(food)) {
-                new ShopAction(shop, food);
-                System.out.println("shop: " + shop.getAll());
-            } else if (trash.accept(food)) {
-                new TrashAction(trash, food);
-                System.out.println("trash: " + trash.getAll());
+            for (Store store : storages) {
+                if (store.accept(food)) {
+                    store.add(food);
+                    System.out.println(store.getName() + ": " + store.getFoods()
+                            + " Срок годности: " + store.getShelfLife(food));
+                }
             }
         }
     }
@@ -62,44 +54,36 @@ public class ControllQuality {
     /**
      * Метод resort() - без параметров и ничего не возвращает.
      * Внутри метода происходит:
-     *  -очистка поля foods класса ControllQuality;
-     *  -очистка полей foods классов Warehouse, Shop, Trash c добавлением продуктов в
-     *   поле foods класса ControllQuality; Если у продукта установлена скидка(discount),
-     *   то цена возвращается в значение без нее.
-     *  -Далее вызывается метод execute() для перераспределения продуктов
-     *   по классам Warehouse, Shop, Trash.
+     * -очистка поля foods класса ControllQuality;
+     * -очистка полей foods классов Warehouse, Shop, Trash c добавлением продуктов в
+     * поле foods класса ControllQuality; Если у продукта установлена скидка(discount),
+     * то цена возвращается в значение без нее.
+     * -Далее вызывается метод foodCheck() для перераспределения продуктов
+     * по классам Warehouse, Shop, Trash.
      */
     public void resort() {
         foods.clear();
-        foods.addAll(warehouse.getAll());
-        warehouse.getAll().clear();
-        for (Food food : shop.getAll()) {
-            float shelfLife = shop.getShelfLife(food);
-            if (0.75 < shelfLife && shelfLife < 1.0) {
-                food.removeDiscount();
-            }
-            foods.add(food);
+        for (Store store : storages) {
+            foods.addAll(store.getAllAndClear());
         }
-        shop.getAll().clear();
-        foods.addAll(trash.getAll());
-        trash.getAll().clear();
-        execute();
+        foodCheck();
     }
 
     /**
      * В методе main() происходит ручное тестирование.
      * Внутри метода происходит:
-     *  -Создание объектов продуктов со сроком изготовления, сроком годности, ценой и
-     *   размером возможной скидки.
-     *  -Продукты добавляются в список и передаются в конструктор
-     *   класса ControllQuality. Создается объект класса ControllQuality c типами хранилищ.
-     *  -У объекта класса ControllQuality вызываются методы execute()
-     *   для распределения продуктов по хранилищам и метод resort() для перераспределения
-     *   уже перераспределенных продуктов заново по хранилищам.
+     * -Создание объектов продуктов со сроком изготовления, сроком годности, ценой и
+     * размером возможной скидки.
+     * -Продукты добавляются в список и передаются в конструктор
+     * класса ControllQuality. Создается объект класса ControllQuality c типами хранилищ.
+     * -У объекта класса ControllQuality вызываются методы execute()
+     * для распределения продуктов по хранилищам и метод resort() для перераспределения
+     * уже перераспределенных продуктов заново по хранилищам.
      */
     public static void main(String[] args) {
-        List<Food> list = new ArrayList<>();
-        Collections.addAll(list,
+        List<Store> storages = List.of(new Warehouse(), new Shop(), new Trash());
+        List<Food> products = new ArrayList<>();
+        Collections.addAll(products,
                 new Bananas("Бананы",
                         LocalDate.of(2021, 7, 1),
                         LocalDate.of(2022, 5, 1), 50.0, 30),
@@ -110,9 +94,8 @@ public class ControllQuality {
                         LocalDate.of(2021, 7, 1),
                         LocalDate.of(2021, 9, 20), 120.0, 30)
         );
-        ControllQuality controllQuality = new ControllQuality(list,
-                new Warehouse(), new Shop(), new Trash());
-        controllQuality.execute();
+        ControllQuality controllQuality = new ControllQuality(storages);
+        controllQuality.execute(products);
         controllQuality.resort();
     }
 }

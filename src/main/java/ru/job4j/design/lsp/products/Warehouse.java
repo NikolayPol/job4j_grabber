@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Warehouse implements Store {
+    private final String name = "Warehouse";
+    private final List<Food> foods = new ArrayList<>();
 
-    private List<Food> foods = new ArrayList<>();
+    public String getName() {
+        return name;
+    }
 
-    public Warehouse() {
+    @Override
+    public List<Food> getFoods() {
+        return foods;
     }
 
     @Override
@@ -21,7 +27,9 @@ public class Warehouse implements Store {
     }
 
     @Override
-    public List<Food> getAll() {
-        return foods;
+    public List<Food> getAllAndClear() {
+        List<Food> buffer = foods;
+        foods.clear();
+        return buffer;
     }
 }

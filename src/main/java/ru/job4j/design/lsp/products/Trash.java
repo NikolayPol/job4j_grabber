@@ -4,7 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Trash implements Store {
-    private List<Food> foods = new ArrayList<>();
+    private final String name = "Trash";
+    private final List<Food> foods = new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public List<Food> getFoods() {
+        return foods;
+    }
 
     @Override
     public boolean accept(Food food) {
@@ -17,7 +27,9 @@ public class Trash implements Store {
     }
 
     @Override
-    public List<Food> getAll() {
-        return foods;
+    public List<Food> getAllAndClear() {
+        List<Food> buffer = foods;
+        foods.clear();
+        return buffer;
     }
 }
