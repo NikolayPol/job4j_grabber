@@ -35,4 +35,23 @@ public class ParkingTest {
         assertEquals(parking.getCars, 2);
     }
 
+    @Test
+    public void when2PassengerNotPlaced() {
+        Parking parking = new Parking(1, 0);
+        PassengerCar passengerCar = new PassengerCar();
+        parking.addPassengerCars(passengerCar);
+        parking.addPassengerCars(passengerCar);
+        assertEquals(parking.getCars, 1);
+    }
+
+    @Test
+    public void when2TruckPlaced() {
+        Parking parking = new Parking(2, 1);
+        PassengerCar passengerCar = new PassengerCar();
+        Truck truck = new Truck();
+        parking.addTrucks(truck);
+        parking.addTrucks(truck);
+        //1 грузовая заняла 2 места для легковой
+        assertEquals(parking.getCars, 2);
+    }
 }
