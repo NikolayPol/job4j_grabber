@@ -9,14 +9,12 @@ import java.util.*;
  * от оставшегося срока годности продукта.
  *
  * @author Nikolay Polegaev
- * @version 3.0 11-09-2021
+ * @version 4.0 13-09-2021
  */
 public class ControllQuality {
     /**
-     * Поле foods хранит список продуктов(объекты класса Food);
      * Поле storages хранит список хранилищ;
      */
-    private List<Food> foods;
     private final List<Store> storages;
 
     public ControllQuality(List<Store> storages) {
@@ -29,18 +27,7 @@ public class ControllQuality {
      * -вызов private метода foodCheck() для перераспределения продуктов.
      */
     public void execute(List<Food> products) {
-        this.foods = products;
-        foodCheck();
-    }
-
-    /**
-     * Меотд foodCheck() - без параметров и ничего не возвращает.
-     * Внутри метода происходит:
-     * -для каждого продукта из подя foods проверка его оставшегося срока годости
-     * с добавлением в соответствующее хранилище
-     */
-    private void foodCheck() {
-        for (Food food : foods) {
+        for (Food food : products) {
             for (Store store : storages) {
                 if (store.accept(food)) {
                     store.add(food);
@@ -62,11 +49,9 @@ public class ControllQuality {
      * по классам Warehouse, Shop, Trash.
      */
     public void resort() {
-        foods.clear();
         for (Store store : storages) {
-            foods.addAll(store.getAllAndClear());
+            execute(store.getAllAndClear());
         }
-        foodCheck();
     }
 
     /**
