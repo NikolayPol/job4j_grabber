@@ -9,7 +9,7 @@ import java.util.*;
  * от оставшегося срока годности продукта.
  *
  * @author Nikolay Polegaev
- * @version 4.0 13-09-2021
+ * @version 4.1 13-09-2021
  */
 public class ControllQuality {
     /**
@@ -23,8 +23,6 @@ public class ControllQuality {
 
     /**
      * Метод execute() - принимает список продуктов и перераспределяет их по хранилищам.
-     * Внутри метода происходит:
-     * -вызов private метода foodCheck() для перераспределения продуктов.
      */
     public void execute(List<Food> products) {
         for (Food food : products) {
@@ -40,13 +38,7 @@ public class ControllQuality {
 
     /**
      * Метод resort() - без параметров и ничего не возвращает.
-     * Внутри метода происходит:
-     * -очистка поля foods класса ControllQuality;
-     * -очистка полей foods классов Warehouse, Shop, Trash c добавлением продуктов в
-     * поле foods класса ControllQuality; Если у продукта установлена скидка(discount),
-     * то цена возвращается в значение без нее.
-     * -Далее вызывается метод foodCheck() для перераспределения продуктов
-     * по классам Warehouse, Shop, Trash.
+     * Метод перераспределяет подукты заново по хранилищам.
      */
     public void resort() {
         for (Store store : storages) {
@@ -59,11 +51,10 @@ public class ControllQuality {
      * Внутри метода происходит:
      * -Создание объектов продуктов со сроком изготовления, сроком годности, ценой и
      * размером возможной скидки.
-     * -Продукты добавляются в список и передаются в конструктор
-     * класса ControllQuality. Создается объект класса ControllQuality c типами хранилищ.
-     * -У объекта класса ControllQuality вызываются методы execute()
-     * для распределения продуктов по хранилищам и метод resort() для перераспределения
-     * уже перераспределенных продуктов заново по хранилищам.
+     * -Создается объект класса ControllQuality c типами хранилищ.
+     * -Продукты добавляются в список и передаются в метод execute() класса ControllQuality.
+     * -Метод execute() распределяет продукты по хранилищам.
+     * -Метод resort() перераспределяет уже перераспределенные продуктов заново по хранилищам.
      */
     public static void main(String[] args) {
         List<Store> storages = List.of(new Warehouse(), new Shop(), new Trash());
