@@ -19,8 +19,8 @@ public abstract class AbstractCache<K, V> {
             reference = cache.get(key).get();
         }
         if (reference == null) {
-            put(key, load(key));
-            reference = cache.get(key).get();
+            reference = load(key);
+            put(key, reference);
         }
         return reference;
     }
