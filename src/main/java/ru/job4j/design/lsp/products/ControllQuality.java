@@ -9,7 +9,7 @@ import java.util.*;
  * от оставшегося срока годности продукта.
  *
  * @author Nikolay Polegaev
- * @version 4.1 13-09-2021
+ * @version 5.0 27-09-2021
  */
 public class ControllQuality {
     /**
@@ -61,17 +61,26 @@ public class ControllQuality {
         List<Food> products = new ArrayList<>();
         Collections.addAll(products,
                 new Bananas("Бананы",
-                        LocalDate.of(2021, 7, 1),
-                        LocalDate.of(2022, 5, 1), 50.0, 30),
+                        LocalDate.of(2021, 9, 1),
+                        LocalDate.of(2022, 11, 1), 50.0, 30),
                 new Meat("Мясо",
-                        LocalDate.of(2021, 7, 1),
-                        LocalDate.of(2021, 9, 1), 600.0, 12),
+                        LocalDate.of(2021, 9, 1),
+                        LocalDate.of(2021, 10, 1), 600.0, 12),
                 new Milk("Молоко",
-                        LocalDate.of(2021, 7, 1),
-                        LocalDate.of(2021, 9, 20), 120.0, 30)
+                        LocalDate.of(2021, 9, 1),
+                        LocalDate.of(2021, 9, 26), 120.0, 30)
         );
         ControllQuality controllQuality = new ControllQuality(storages);
         controllQuality.execute(products);
         controllQuality.resort();
+        System.out.println(storages.get(0).getName());
+        System.out.println(storages.get(0).getFoods());
+        System.out.println(storages.get(1).getName());
+        System.out.println(storages.get(1).getFoods());
+        System.out.println(storages.get(2).getName());
+        System.out.println(storages.get(2).getFoods());
+//        for (Store store : storages) {
+//            System.out.println((store.getAllAndClear()));
+//        }
     }
 }

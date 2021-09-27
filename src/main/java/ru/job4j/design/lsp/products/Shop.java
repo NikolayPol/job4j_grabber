@@ -34,7 +34,7 @@ public class Shop implements Store {
 
     @Override
     public List<Food> getAllAndClear() {
-        List<Food> buffer = foods;
+        List<Food> buffer = new ArrayList<>(foods);
         foods.clear();
         for (Food food : buffer) {
             float shelfLife = getShelfLife(food);
@@ -42,6 +42,6 @@ public class Shop implements Store {
                 food.removeDiscount();
             }
         }
-        return foods;
+        return buffer;
     }
 }

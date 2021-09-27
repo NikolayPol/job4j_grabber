@@ -28,7 +28,7 @@ public class Trash implements Store {
 
     @Override
     public List<Food> getAllAndClear() {
-        List<Food> buffer = foods;
+        List<Food> buffer = new ArrayList<>(foods);
         foods.clear();
         return buffer;
     }
