@@ -20,7 +20,7 @@ public class ParkingLot implements Parking {
 
     @Override
     public int getCars() {
-        return passengerCars.length + trucks.length;
+        return 0;
     }
 
     @Override
